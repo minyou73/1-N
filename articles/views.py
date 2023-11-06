@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Article
+from .models import Article, Comment
 from .forms import ArticleForm, CommentForm
 
 # Create your views here.
@@ -16,12 +16,30 @@ def detail(request, id):
     article = Article.objects.get(id=id)
     form = CommentForm()
 
+    # COmment 목록 조회
+
+    # 첫번째 방법
+    # comments = Comment.objects.filter(article=article)
+    # 모든 댓글 중에서 article=article인것만 찾는다
+
+    # 두번째 방법
+    # comments = article.comment_set.all()
+    # 기준점을 artic
+
+    # 세번째 방법
+    # html코드에서 article.comment_set.all을 사용
+    
+
+
     context = {
         'article': article,
         'form' : form,
+        # 'comments': comments,
     }
 
     return render(request, 'detail.html', context)
+
+
 
 
 def create(request):
@@ -37,6 +55,7 @@ def create(request):
         'form': form,
     }
     return render(request, 'form.html', context)
+
 
 
 def comment_create(request, article_id):
